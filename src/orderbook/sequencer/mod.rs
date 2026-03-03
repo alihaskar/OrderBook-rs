@@ -11,9 +11,9 @@
 //! - [`JournalError`] — error type for journal operations
 //! - [`Journal`] — trait for append-only event journals
 //! - [`JournalEntry`] — a single entry read back from the journal
-//! - [`in_memory_journal::InMemoryJournal`] — in-memory journal implementation for testing
-//! - [`replay::ReplayEngine`] — deterministic replay engine for event journals
-//! - [`replay::ReplayError`] — error type for replay operations
+//! - [`crate::orderbook::sequencer::InMemoryJournal`] — in-memory journal implementation for testing
+//! - [`crate::orderbook::sequencer::ReplayEngine`] — deterministic replay engine for event journals
+//! - [`crate::orderbook::sequencer::ReplayError`] — error type for replay operations
 //! - `FileJournal` — memory-mapped file journal implementation (requires `journal` feature)
 //!
 //! # Feature Gate

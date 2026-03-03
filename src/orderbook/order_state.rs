@@ -7,7 +7,7 @@
 //! The tracker is an **optional** component on [`OrderBook`] — when not
 //! configured, there is zero overhead on the matching hot path.
 //!
-//! [`OrderBook`]: super::book::OrderBook
+//! [`OrderBook`]: super::OrderBook
 //!
 //! # State Transitions
 //!
