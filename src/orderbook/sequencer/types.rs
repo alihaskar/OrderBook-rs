@@ -5,8 +5,9 @@
 //! also used by the `Journal` trait for write-ahead
 //! logging and deterministic replay.
 
+use crate::orderbook::mass_cancel::MassCancelResult;
 use crate::orderbook::trade::TradeResult;
-use pricelevel::{Id, OrderType, OrderUpdate, Side};
+use pricelevel::{Hash32, Id, OrderType, OrderUpdate, Side};
 use serde::{Deserialize, Serialize};
 
 /// A command submitted to the Sequencer for total-ordered execution.
@@ -36,6 +37,31 @@ pub enum SequencerCommand<T> {
         quantity: u64,
         /// The side of the market order (Buy sweeps asks, Sell sweeps bids).
         side: Side,
+    },
+
+    /// Cancel all orders in the book.
+    CancelAll,
+
+    /// Cancel all orders on the specified side.
+    CancelBySide {
+        /// The side to cancel (Buy or Sell).
+        side: Side,
+    },
+
+    /// Cancel all orders belonging to the specified user.
+    CancelByUser {
+        /// The user identifier whose orders should be cancelled.
+        user_id: Hash32,
+    },
+
+    /// Cancel all orders within a price range on the specified side.
+    CancelByPriceRange {
+        /// The side to cancel (Buy or Sell).
+        side: Side,
+        /// Minimum price (inclusive).
+        min_price: u128,
+        /// Maximum price (inclusive).
+        max_price: u128,
     },
 }
 
@@ -67,6 +93,12 @@ pub enum SequencerResult {
     TradeExecuted {
         /// The trade result containing match details, fees, and transactions.
         trade_result: TradeResult,
+    },
+
+    /// A mass cancel operation was executed.
+    MassCancelled {
+        /// The result containing the count and IDs of cancelled orders.
+        result: MassCancelResult,
     },
 
     /// The command was rejected by the order book.
